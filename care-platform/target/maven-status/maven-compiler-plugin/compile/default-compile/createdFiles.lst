@@ -1,0 +1,12 @@
+com\care\platform\mapper\ReservationMapper.class
+com\care\platform\entity\Reservation.class
+com\care\platform\service\impl\UserServiceImpl.class
+com\care\platform\entity\User.class
+com\care\platform\mapper\UserMapper.class
+com\care\platform\entity\Timeslot.class
+com\care\platform\service\UserService.class
+com\care\platform\controller\TimeslotController.class
+com\care\platform\PlatformApplication.class
+com\care\platform\controller\ReservationController.class
+com\care\platform\controller\UserController.class
+com\care\platform\mapper\TimeslotMapper.class

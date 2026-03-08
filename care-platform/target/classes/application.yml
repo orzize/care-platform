@@ -1,0 +1,31 @@
+# 1. 服务端口配置
+server:
+  port: 8080 # 后端接口跑在 8080 端口
+
+# 2. 数据库连接配置
+spring:
+  datasource:
+    # 数据库驱动
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 数据库连接地址 (这里的 care_platform 是我们接下来要建的数据库名)
+    url: jdbc:mysql://47.111.2.69:3306/care_platform?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: care_platform  # 👉 这里换成你的 MySQL 账号
+    password: YnxhiSWssRCb2iMC  # 👉 这里换成你的 MySQL 密码
+    hikari:
+      max-lifetime: 1800000    # 强制每 30 分钟回收连接（必须小于 MySQL 的 8 小时）
+      keepalive-time: 300000   # 每 5 分钟做一次心跳检测，防止被 MySQL 踢掉
+
+# 3. MyBatis-Plus 增强配置
+mybatis-plus:
+  configuration:
+    # 开启控制台打印 SQL 语句，方便我们开发时找 Bug
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 开启驼峰命名自动映射 (比如把数据库的 is_member 自动转为 Java 里的 isMember)
+    map-underscore-to-camel-case: true
+
+# 4. 追加到 application.yml 底部
+wechat:
+  miniapp:
+    # 请替换为你真实的 AppID 和 Secret (在微信公众平台 -> 开发管理 -> 开发设置 中获取)
+    appid: wx1853f84992db233d
+    secret: 7de5534d273c1a1cd77647a2e71f238e
