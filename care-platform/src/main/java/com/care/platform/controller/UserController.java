@@ -1,10 +1,10 @@
 package com.care.platform.controller;
 
 import com.care.platform.service.IUserService;
+import com.care.platform.utils.Result; // 🌟 引入全局统一返回类
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -15,19 +15,14 @@ public class UserController {
     private IUserService userService;
 
     @PostMapping("/login")
-    public Map<String, Object> login(@RequestBody Map<String, String> request) {
-        Map<String, Object> result = new HashMap<>();
-        try {
-            String code = request.get("code");
-            String token = userService.loginByWechat(code); // 调用真实微信接口
+    public Result<Map<String, String>> login(@RequestBody Map<String, String> request) {
+        String code = request.get("code");
 
-            result.put("status", "success");
-            result.put("data", Collections.singletonMap("token", token));
-        } catch (Exception e) {
-            // 🌟 拦截异常，把真正的死因（如 invalid code）返回给前端！不再 undefined！
-            result.put("status", "error");
-            result.put("message", e.getMessage());
-        }
-        return result;
+        // 🌟 核心业务调用：传入 code，换取真实的 token
+        // 如果这里因为 code 过期或无效抛出异常，会被全局拦截器直接捕获，返回给前端优雅的错误提示
+        String token = userService.loginByWechat(code);
+
+        // 极简返回：将 token 包装成 Map 塞入 Result 成功状态中返回
+        return Result.success(Collections.singletonMap("token", token));
     }
 }
